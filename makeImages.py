@@ -16,24 +16,25 @@ class cfg:  ## Config Parameters, Change these depending on what you are plottin
     centering = "primative" + "CENTERING_"
     name = "dolomite" + "NAME_"
     xpos = "1.e-7" + "XPOS_" 
-    dzdy = "5e-7" + "DZDY_"
-    len = "1e-5" + "LEN_"
+    dzdy = "1e-7" + "DZDY_"
+    len = "2e-5" + "LEN_"
     theta = "0" + "THETA_" 
     psi = "0" + "PSI_" 
     phi = "0" + "PHI_" 
     nx = "1" + "NX_"
-    ny = "100" + "NY_"
-    nz = "100" + "NZ_"
+    ny = "25" + "NY_"
+    nz = "25" + "NZ_"
     Lambda = "1e-11" + "LAMBDA_"
     manualConfiguration = False
     cmap = "gray" ## Or any matplotlib cmap you want
     zoom = 1. ## zooms into the center of the sceen by a factor of [x]
     running = "*PHI_" ## If running over a number of images at a specific angle, specify what running angle you need here. 
     lowPassTh = 100
-    highPassTh = 100
+    highPassTh = 150
     bandPassThL = 130  # Must be higher than the bandPassThH Filter Number
     bandPassThH = 10
     gBlur = 1
+    print("NO FILES FOUND WITH:")
     filterImages = 1.
 
 defaultImages = ['/raw/','/fft/','/shiftedfft/']
@@ -78,9 +79,7 @@ if cfg.filterImages:
         imageMaker.makeLowPassFilter(image, savePath, saveFolder, radius = cfg.lowPassTh, gBlur = cfg.gBlur) 
         imageMaker.makeHighPassFilter(image, savePath, saveFolder, radius = cfg.highPassTh, gBlur = cfg.gBlur)
         imageMaker.makeBandPassFilter(image, savePath, saveFolder, radius = cfg.bandPassThL, outer_radius = cfg.bandPassThH, gBlur = cfg.gBlur)
-        
-# Make gif at directed folder, defined above
-tools.makeGif(gifPath) 
+         
 #averageDNA.averageDNA(cfg)
 #imageMaker.plotDNA        
         

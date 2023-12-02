@@ -107,11 +107,12 @@ def bandPassFilter(image, inner_radius, outer_radius, gBlur):
 def makeGif(folder, frameOrder, varyingParameter):
     folderPath = str(Path(folder))
     print(glob.glob(folderPath+'\\'+'*_'+str(0)+varyingParameter+'_*'))
-    gifFrames = []
-    for frame in frameOrder:
-        frameFile = glob.glob(folderPath+'\\'+'*_'+str(int(frame))+varyingParameter+'_*') # Only get the first file found, set up so there really only should be one
-        print(frame)
-        print("Adding "+frameFile[0]+ " to movie frames")
-        gifFrames.append(imageio.imread(frameFile[0]))
-    imageio.mimsave(folder+'/movie.gif', gifFrames, duration=150, loop=0)
+    with imageio.get_writer(folder+'/GIF.gif', mode='I', duration = 150, loop=0) as writer:
+        for frame in frameOrder:
+            frameFile = glob.glob(folderPath+'\\'+'*_'+str(int(frame))+varyingParameter+'_*') # Only get the first file found, set up so there really only should be one
+            print(frame)
+            print("Adding "+frameFile[0]+ " to movie frames")
+            frameImage = (imageio.imread(frameFile[0]))
+            writer.append_data(frameImage)
+    
     
