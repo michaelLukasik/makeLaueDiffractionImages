@@ -15,15 +15,15 @@ import tools
 class cfg:  ## Config Parameters, Change these depending on what you are plotting
     centering = "primative" + "CENTERING_"
     name = "dolomite" + "NAME_"
-    xpos = "1.1e-3" + "XPOS_" 
-    dzdy = "2e-8" + "DZDY_"
+    xpos = "1.e-7" + "XPOS_" 
+    dzdy = "5e-7" + "DZDY_"
     len = "1e-5" + "LEN_"
     theta = "0" + "THETA_" 
     psi = "0" + "PSI_" 
     phi = "0" + "PHI_" 
-    nx = "0" + "NX_"
-    ny = "0" + "NY_"
-    nz = "0" + "NZ_"
+    nx = "1" + "NX_"
+    ny = "100" + "NY_"
+    nz = "100" + "NZ_"
     Lambda = "1e-11" + "LAMBDA_"
     manualConfiguration = False
     cmap = "gray" ## Or any matplotlib cmap you want
@@ -31,8 +31,8 @@ class cfg:  ## Config Parameters, Change these depending on what you are plottin
     running = "*PHI_" ## If running over a number of images at a specific angle, specify what running angle you need here. 
     lowPassTh = 100
     highPassTh = 100
-    bandPassThL = 130
-    bandPassThH = 100
+    bandPassThL = 130  # Must be higher than the bandPassThH Filter Number
+    bandPassThH = 10
     gBlur = 1
     filterImages = 1.
 
@@ -45,6 +45,8 @@ fullSaveFolderTag = getTags.getFullSaveTag(str_folderTag, cfg)
 savePath = "images/"
 saveFolder = "EigenResults_CONFIG_"+fullSaveFolderTag+"CONFIG_"
 
+## path for gif maker, just copy and paste from Windows
+gifPath = "C:\\Users\\Michael\\Documents\\Programming\\makeLaueDiffractionImages\\images\\EigenResults_CONFIG_1.e-7XPOS_5e-7DZDY_1e-5LEN_varryingPhi_1NX_100NY_100NZ_1e-11LAMBDA_primativeCENTERING_dolomiteNAME_CONFIG_\\filtered\\high"
 
 files = glob.glob("csvFiles/EigenResults_CONFIG_"+fullCSVTag+"CONFIG_.csv")
 print("csvFiles/EigenResults_CONFIG_"+fullCSVTag+"CONFIG_.csv")
@@ -77,6 +79,8 @@ if cfg.filterImages:
         imageMaker.makeHighPassFilter(image, savePath, saveFolder, radius = cfg.highPassTh, gBlur = cfg.gBlur)
         imageMaker.makeBandPassFilter(image, savePath, saveFolder, radius = cfg.bandPassThL, outer_radius = cfg.bandPassThH, gBlur = cfg.gBlur)
         
+# Make gif at directed folder, defined above
+tools.makeGif(gifPath) 
 #averageDNA.averageDNA(cfg)
 #imageMaker.plotDNA        
         

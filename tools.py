@@ -1,6 +1,9 @@
 import os
 import cv2
 import numpy as np
+import glob
+import imageio
+from pathlib import Path
 
 def makeFolder(savePath, saveFolder, tag = "/", filter = ""):
     print(savePath + saveFolder + tag + filter)
@@ -100,4 +103,15 @@ def bandPassFilter(image, inner_radius, outer_radius, gBlur):
     img_back = np.abs(img_back).clip(0,255).astype(np.uint8)
     
     return img_back
+
+def makeGif(folder, frameOrder, varyingParameter):
+    folderPath = str(Path(folder))
+    print(glob.glob(folderPath+'\\'+'*_'+str(0)+varyingParameter+'_*'))
+    gifFrames = []
+    for frame in frameOrder:
+        frameFile = glob.glob(folderPath+'\\'+'*_'+str(int(frame))+varyingParameter+'_*') # Only get the first file found, set up so there really only should be one
+        print(frame)
+        print("Adding "+frameFile[0]+ " to movie frames")
+        gifFrames.append(imageio.imread(frameFile[0]))
+    imageio.mimsave(folder+'/movie.gif', gifFrames, duration=150, loop=0)
     
